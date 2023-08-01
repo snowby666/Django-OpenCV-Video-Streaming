@@ -1,0 +1,324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keyword" content="coDestress, VisionAI, Stress" />
+    <meta name="author" content="Snowby" />
+    <meta name="description" content="coDestress Your Mental Assistant" />
+    <title>Django Channels + OpenCV</title>
+    <link href='{% static "server/c3/c3.css" %}' rel="stylesheet">
+    <script src='{% static "server/c3/docs/js/d3-5.8.2.min.js" %}'charset="utf-8"></script>
+    <script src='{% static "server/c3/c3.min.js" %}'></script>
+    <link href="https://fonts.googleapis.com/css?family=M PLUS Rounded 1c" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+    <style>
+        * {
+            transition: all 0.3s;
+            font-family: M PLUS Rounded\ 1c,SF UI Text,Helvetica Neue,Helvetica,Roboto,sans-serif;
+          }
+        html {
+            background: linear-gradient(90deg,#66b6ea,#8743ff);
+        }
+        body {
+            margin: 0;
+        }
+        .c3-circles-FPS {
+            display: none;
+          }
+        
+        .align-center-scale {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+          }
+
+          .footer {
+            min-height: auto;
+            padding: 0rem 16%;
+            background-color: #ecf2fd;
+          }
+          .footer .box-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+          }
+          .footer .box-container .box {
+            flex: 1 1 10rem;
+            margin: 2rem;
+          }
+          .footer .box-container .box.right {
+            position: relative;
+            left: 9rem;
+          }
+          .footer .box-container .box h3 {
+            font-size: 1.5rem;
+            color: #031b4e;
+            padding-bottom: 1rem;
+            font-weight: normal;
+          }
+          .footer .box-container .box p {
+            font-size: 1rem;
+            color: rgba(3,27,78,.7);
+            padding: 0.7rem 0;
+            text-transform: none;
+          }
+          .footer .box-container .box p i {
+            padding-right: 1rem;
+            color: #0077ff;
+          }
+          .footer .box-container .box .share {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0rem 0;
+          }
+          .footer .box-container .box .share a {
+            height: 2.2rem;
+            width: 2.2rem;
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 1rem;
+            margin-right: 1rem;
+            transition: 0.3s;
+            background: rgb(230, 230, 230);
+            color: #02094b;
+            border: none;
+          }
+          .footer .box-container .box .share a:hover {
+            background: transparent;
+            transform: scale(0.9);
+            border: 0.1rem solid rgb(180, 178, 178);
+            color: #0077ff;
+          }
+          .footer .credit {
+            padding: 1rem 0 1rem 0;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #031b4e;
+            border-top: 0.1rem solid #fff3;
+            margin-block-end: 0;
+          }
+          .footer .credit i {
+            font-size: 0.9rem;
+          }
+          .footer .credit a {
+            color: #0077ff;
+            text-decoration: none;
+          }
+          .footer .fa {
+            color: #e90606;
+            margin: 0 0.3rem;
+            font-size: 1.5rem;
+            animation: pound 0.35s infinite alternate;
+          }
+          .footer .fab {
+            line-height: 2 !important;
+          }
+          @-webkit-keyframes pound {
+            to {
+              transform: scale(1.1);
+            }
+          }
+          @keyframes pound {
+            to {
+              transform: scale(1.1);
+            }
+          }
+          @media screen and (max-width: 968px) {
+            section.footer {
+              min-height: 72vh;
+            }
+            .footer .box-container .box.right {
+              left: 0;
+            }
+          }
+          @media (max-width: 568px) {
+            section.footer {
+              padding: 1.8rem 0%;
+              min-height: 72vh;
+            }
+            .footer .box-container .box h3 {
+              margin-left: 10px;
+            }
+            .footer .box-container .box {
+              margin: 1rem;
+            }
+            .footer .box-container .box p {
+              padding: 0.7rem;
+            }
+          }
+        
+        .video {
+            width:100vmin; 
+            height:auto;
+            border-radius: 10px;
+        }
+        .video:hover {
+            cursor: pointer;
+            border: 5px solid #66b6ea;
+        }
+        @media screen and (max-width: 568px) {
+            .video {
+                width:90vmin; 
+                height:auto;
+            }
+        }
+
+  </style>
+  </head>
+
+  <body>
+    <div style='font-weight:800; font-size:5vmin;' class="align-center-scale">
+        <h5>This canvas is updated every 100ms by default (you can change the interval in html)</h5>
+    </div>
+
+    <video id='video' style='display:none;' autoplay playsinline></video>
+    <canvas id="canvas" style='display:none;' width="400" height="300"></canvas>
+    <div style="border-radius: 10px;" class="align-center-scale">
+        <img id='client' class="video" src='https://cdn.discordapp.com/attachments/848543264783990804/1051901701654851705/face.gif' alt="screen">
+    </div>
+
+    <div class="align-center-scale" style="padding-top:20px;">
+        <button style="width:15vmin; height:auto; font-size:4vmin; border-radius:10px; background: linear-gradient(90deg,#66b6ea,#8743ff); cursor:pointer;" onclick='Mode()'>Click</button>
+    </div>
+
+    <div style='font-weight:800; font-size:5vmin;' class="align-center-scale">
+        <h5>I use C3.js to plot this beautiful graph in real time</h5>
+    </div>
+    <div style="background: #fff; border-radius: 10px; margin: 30px 200px 60px 200px;">
+        <div style="padding-top:20px;" id='chart0'></div>
+    </div>
+
+  </body>
+  <footer class="footer">
+    <div class="box-container">
+      <div class="box">
+        <h3>This project utilizes Django Channels and OpenCV for Real-time ML on Video Streaming</h3>
+        <p data-lang='en'>Feel free to contribute to this repo if you have any ideas or further implements<br /></p>
+          <br />
+      </div>
+
+      <div class="box right">
+        <h3>Credits</h3>
+        <p style="white-space: nowrap;"><i class="fab fa-github"></i>Snowby666 (Author)</p>
+        <br />
+        <div class="share">
+          <a href="https://www.linkedin.com/in/ngodinhgiabao/" class="fab fa-linkedin-square" aria-label="LinkedIn" target="_blank"></a>
+          <a href="https://github.com/snowby666" class="fab fa-github" aria-label="Github" target="_blank"></a>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="credit">Made with <i class="fa fa-heart pulse"></i> by <a href="https://snowby666.github.io/"  target="_blank"> Gia Bao</a></h1>
+  </footer>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var video = document.getElementById('video');
+    var img = document.getElementById("client");
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var mode = true;
+    var urlData = '{% static "" %}server/data/fps.csv';
+    
+    video.width = 400;
+    video.height = 300;
+
+    // Scale the graph canvas accordingly to the window size
+    var widthupdate = window.innerWidth*0.6;
+    var heightupdate = window.innerHeight*0.5;
+
+    function Mode(){
+        if (mode == true){
+            mode = false;
+            var ws = new WebSocket(
+                ws_scheme + '://' + window.location.host + '/'
+            );
+            ws.onopen = (event) => {
+                console.log('websocket connected!!!');
+            };
+            ws.onmessage = (event) => {
+            //console.log("WebSocket message received: ", event.data);
+            frameUpdate = event.data;
+            img.src = "data:image/jpeg;base64," + frameUpdate;
+            
+            };
+            ws.onclose = (event) => {
+                console.log('Close');
+            };
+            if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+            video.srcObject = stream;
+            video.play();
+            var width = video.width;
+            var height = video.height;
+            var delay = 100; // adjust the delay to fit your needs (ms)
+            var jpegQuality = 0.7; // adjust the quality to fit your needs (0.0 -> 1.0)
+
+            setInterval(function() {
+            context.drawImage(video, 0, 0, width, height);
+            canvas.toBlob(function(blob) {
+                if (ws.readyState == WebSocket.OPEN) {
+                    if (mode == true){
+                        ws.send(new Uint8Array([]));
+                    } else {
+                        ws.send(blob);
+                    }
+                }
+            }, 'image/jpeg', jpegQuality);
+            }, delay);
+
+            setTimeout(function(){
+                
+                var chart = c3.generate({
+                    bindto: '#chart0',
+                    size: {
+                    height: heightupdate,
+                    width: widthupdate },
+                    data: {
+                        url: urlData,
+                        type: 'line'
+                    },
+                    axis: {
+                    y: {
+                        max: 30,
+                        min: -0.2,
+                    }
+                    },       
+                    subchart: {
+                    show: false
+                    },
+                    zoom: {
+                    enabled: true
+                    }});
+                
+                    createchart = setInterval(function() {
+                        chart.load({
+                            url: urlData,
+                            type: 'line'
+                        });
+                    }, 2000);
+                },500);
+            });}
+        }
+        else if (mode == false){
+            mode = true;
+            video.pause();
+            video.srcObject.getVideoTracks()[0].stop();
+            video.srcObject = null;
+            setTimeout(function() {
+                clearInterval(createchart);
+            },500);
+        }
+    };
+    </script>
+</html>
