@@ -58,7 +58,7 @@ Here an illustration about the diffrences between the normal HTTP request-respon
 
 ### Optimization:
 
-- Client-side (retrieve each frame from the Broswer Webcam, encode it to Bytes and then send to Server-side)
+- Client-side (capture each frame from the user's webcam in the browser, then encode it into bytes, and send it to the Server-side)
 
 - Example:
 ```js
@@ -102,7 +102,7 @@ Here an illustration about the diffrences between the normal HTTP request-respon
 
     });}
 ```
-- Server-side (decode the Bytes data from Client-side. Next, we can use OpenCV for Image Processing with any ML/AI algorithm or heavy computational processes of your choices. Finally, the frame will be encoded to Base64 and passed back to Client-side to update the src of canvas)
+- Server-side (decode the Bytes data from Client-side. Next, we can use OpenCV library for Image Processing with any ML/AI algorithms or heavy computational processes of your choices. Finally, the frame will be encoded to Base64 and passed back to Client-side to update the src of canvas)
 
 - Example:
 ```python
