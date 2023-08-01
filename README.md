@@ -63,7 +63,7 @@ In this project, I don't use ~`cap = cv2.VideoCapture(0)`~ to retrieve webcam fe
 I also tried SSE + Ajax approach but the performance was inefficent.
 
 With WebSockets implemented to this project, we can stream data persistently between Client and Server. 
-Here an illustration about the diffrences between the normal HTTP request-response cycles and WebSockets:
+Here an illustration about the differences between the normal HTTP request-response cycles and WebSockets:
 
 ![http](https://cdn.discordapp.com/attachments/957946068836950026/1135866429120450590/image.png)
 ![websocket](https://cdn.discordapp.com/attachments/957946068836950026/1135866799028699136/image.png)
