@@ -59,7 +59,7 @@ ngrok.connect(8000)
 ## Documentation:
 
 ### How it works:
-In this project, I don't use ~`cap = cv2.VideoCapture(0)`~ to retrieve webcam feed since it only works on local machine. For production deployment, I choose Django Channels because it supports Websocket.
+In this project, I don't use ~`cap = cv2.VideoCapture(0)`~ to retrieve webcam feed since it only works on local machine. For production deployment, I choose [Django Channels](https://channels.readthedocs.io/en/latest/) because it supports Websocket.
 I also tried SSE + Ajax approach but the performance was inefficent.
 
 With WebSockets implemented to this project, we can stream data persistently between Client and Server. 
