@@ -1,5 +1,6 @@
 # Django OpenCV Video Streaming
-
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/release/python-397/)
+<br>
 This project utilizes Django Channels and OpenCV for Real-time ML on Video Streaming. Plus, it works when deployed to production.
 
 ## Table of Contents:
