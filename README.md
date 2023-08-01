@@ -3,10 +3,10 @@
 This project utilizes Django Channels and OpenCV for Real-time ML on Video Streaming. Plus, it works when deployed into production
 
 ## Table of Contents:
-- [Features](#features)
+- [Highlights](#highlights)
 - [Installation](#installation)
 - [Documentation](#documentation)
-  * [How it works](#explaination)
+  * [How it works](#how-it-works)
   * [Optimization](#optimization)
 - [Copyright](#copyright)
   * [Copyright Notice](#copyright-notice)
