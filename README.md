@@ -43,6 +43,17 @@ python manage.py migrate
 ```
 daphne VideoStream.asgi:application --port 8000 --bind 127.0.0.1     
 ```
+- If you want to test the project in production, you can set up a Ngrok tunnel or run the existed one inside this project's folder [ngrok.ipynb](https://github.com/snowby666/Django-OpenCV-Video-Streaming/blob/main/ngrok.ipynb)
+```
+from pyngrok import ngrok
+ngrok.kill()
+# You can get your authtoken from https://dashboard.ngrok.com/auth
+# I prepared this token for you, but you can get your own
+auth_token = '2MBBpglFtyIYedSYhqf3J9qadxk_3aCaoe72L8oBJZbm8kmMo' 
+ngrok.set_auth_token(auth_token)
+
+ngrok.connect(8000)
+```
 
 ## Documentation:
 
@@ -102,7 +113,7 @@ Here an illustration about the diffrences between the normal HTTP request-respon
 
     });}
 ```
-- Server-side (decode the Bytes data from Client-side. Next, we can use OpenCV library for Image Processing with any ML/AI algorithms or heavy computational processes of your choices. Finally, the frame will be encoded to Base64 and passed back to Client-side to update the src of canvas)
+- Server-side (decode the Bytes data from Client-side. Next, we can use OpenCV for Image Processing with any ML/AI algorithm or heavy computational processes of your choice. Finally, the frame will be encoded to Base64 and passed back to Client-side to update the src of canvas)
 
 - Example:
 ```python
@@ -112,7 +123,6 @@ Here an illustration about the diffrences between the normal HTTP request-respon
         self.fps = 0
         self.prev = 0
         self.new = 0
-        clear_csv()
         print('Closed connection')
         await self.close()
     else:
