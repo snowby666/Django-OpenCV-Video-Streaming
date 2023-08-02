@@ -16,6 +16,7 @@ from server.views import VideoStreamConsumer
 application = ProtocolTypeRouter({
     # Django's ASGI application to handle traditional HTTP requests
     "http": django_asgi_app,
+    "https": django_asgi_app,
 
     # WebSocket chat handler
     "websocket": AllowedHostsOriginValidator(
