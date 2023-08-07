@@ -3,7 +3,7 @@
 <br>
 This project utilizes Django Channels and OpenCV for Real-time ML on Video Streaming. Plus, it works when deployed to production.
 
-<img src="https://cdn.discordapp.com/attachments/957946068836950026/1138010136489775124/Demo_Video-Streaming.gif">
+![Demo](.examples\walkthrough.gif)
 
 ## Table of Contents:
 - [Highlights](#highlights)
