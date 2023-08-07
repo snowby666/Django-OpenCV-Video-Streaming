@@ -24,8 +24,6 @@ emotion_classifier = load_model(DIR + '/server/models/_mini_XCEPTION.102-0.66.hd
 (er_lower, er_upper) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
 def index(request):
-    global checkpoint
-    checkpoint = '1'
     return render(request, 'server/index.html')
 
 EMOTIONS = ["angry", "disgust", "scared", "happy", "sad", "surprised", "neutral"]
