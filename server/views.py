@@ -120,7 +120,8 @@ class VideoStreamConsumer(AsyncWebsocketConsumer):
             # self.frame = imutils.resize(self.frame, width=500,height=500)
             
             self.frame = await self.loop.run_in_executor(None, cv2.imdecode, np.frombuffer(bytes_data, dtype=np.uint8), cv2.IMREAD_COLOR)
-            self.frame = cv2.resize(self.frame, (500, 500))
+            # Resizing image may cause delay
+            # self.frame = cv2.resize(self.frame, (500, 500))
             self.gray = cv2.cvtColor(self.frame,cv2.COLOR_BGR2GRAY)
             self.i += 1
             
@@ -153,9 +154,9 @@ class VideoStreamConsumer(AsyncWebsocketConsumer):
                 self.emotion = await self.loop.run_in_executor(None, get_emotion, self.detection, self.gray)
                 
                 await self.fps_count()  
-                cv2.putText(self.frame, "FPS: {}".format((self.fps)), (330,40),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (54, 161, 255), 1)
-                cv2.putText(self.frame, "Frames: {}".format((self.i)), (220,40),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (54, 161, 255), 1)
-                cv2.putText(self.frame, "Emotion: {}".format((self.emotion)), (50,40),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (54, 161, 255), 1)
+                cv2.putText(self.frame, "FPS: {}".format((self.fps)), (310,40),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (54, 161, 255), 1)
+                cv2.putText(self.frame, "Frames: {}".format((self.i)), (190,40),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (54, 161, 255), 1)
+                cv2.putText(self.frame, "Emotion: {}".format((self.emotion)), (20,40),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (54, 161, 255), 1)
                 cv2.drawContours(self.frame, [self.reyebrowhull, self.leyebrowhull, self.openmouthhull, self.innermouthhull, self.leyehull, self.reyehull], -1, (219, 255, 99), 1)
                 
             # Recording the FPS values in real time (this is made only for only 1 user for now)
