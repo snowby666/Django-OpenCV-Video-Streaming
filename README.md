@@ -36,7 +36,8 @@ python -m venv .venv
 ```
 pip install -r requirements.txt
 ```
-*The repository is currently compatible with Python 3.9+*
+> **Note**
+> The repository is currently compatible with Python 3.9+
 - Initialise the project:
 ```
 python manage.py makemigrations
