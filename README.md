@@ -42,7 +42,7 @@ python -m venv .venv
 ```
 pip install -r requirements.txt
 ```
-> **Note**
+> [!NOTE]
 > The repository is currently compatible with Python 3.9+
 - Initialise the project:
 ```
