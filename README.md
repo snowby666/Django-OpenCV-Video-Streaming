@@ -74,8 +74,8 @@ I also tried SSE + Ajax approach but the performance was inefficent.
 With WebSockets implemented to this project, we can stream data persistently between Client and Server. 
 Here an illustration about the differences between the normal HTTP request-response cycles and WebSockets:
 
-![http](https://cdn.discordapp.com/attachments/957946068836950026/1135866429120450590/image.png)
-![websocket](https://cdn.discordapp.com/attachments/957946068836950026/1135866799028699136/image.png)
+![http](https://cdn.discordapp.com/attachments/957946068836950026/1086128709343399976/qUyFW.png?ex=65ea85af&is=65d810af&hm=c0998c1306e56e2807ca7c29af50b829e42d0db2e9ffbe57cbda32f7db189006&)
+![websocket](https://cdn.discordapp.com/attachments/957946068836950026/1086128732948934656/ReJux.png?ex=65ea85b5&is=65d810b5&hm=aae6cb190d4fd02bf1d7171c0027f6588461804737bb103a8f350426232a6ef6&)
 
 ### Optimization:
 
