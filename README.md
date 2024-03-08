@@ -74,8 +74,8 @@ I also tried SSE + Ajax approach but the performance was inefficent.
 With WebSockets implemented to this project, we can stream data persistently between Client and Server. 
 Here an illustration about the differences between the normal HTTP request-response cycles and WebSockets:
 
-![http](https://i.imgur.com/4amcV09.png)
-![websocket](https://i.imgur.com/4f77TTD.png)
+<img src="https://i.imgur.com/4amcV09.png" width="100%" height="auto" alt="http">
+<img src="https://i.imgur.com/4f77TTD.png" width="100%" height="auto" alt="websockets">
 
 ### Optimization:
 
